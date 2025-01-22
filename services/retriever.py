@@ -17,9 +17,16 @@ questions = client.collections.get("Question")
 #         batch.add_object({"answer": d["Answer"], "question": d["Question"], "category": d["Category"]})
 
 # Semantic search which is called `nearText` in Weaviate
-response = questions.query.near_text(query="biology", limit=2)
+# response = questions.query.near_text(query="biology", limit=2)
 
-for obj in response.objects:
-    print(json.dumps(obj.properties, indent=2))
+# for obj in response.objects:
+#     print(json.dumps(obj.properties, indent=2))
+
+# generate content
+response = questions.generate.near_text(
+    query="biology", limit=2, grouped_task="Write a tweet with emojis about these facts."
+)
+
+print(response.generated)
 
 client.close()
